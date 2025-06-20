@@ -86,11 +86,9 @@ const getBookByID = async (req: Request, res: Response) => {
 }
 
 
-
-
 const updateBook = async (req: Request, res: Response) => {
     try {
-        const data = await Book.findByIdAndUpdate(req.params.bookId,req.body,{new:true})
+        const data = await Book.findByIdAndUpdate(req.params.bookId, req.body, { new: true })
         res.send({
             "success": true,
             "message": "Book updated successfully",
@@ -98,7 +96,27 @@ const updateBook = async (req: Request, res: Response) => {
         })
     }
     catch (error) {
-         res.status(500).json({
+        res.status(500).json({
+            success: false,
+            message: "Error occurred",
+            error
+        });
+
+    }
+
+}
+
+const deleteBook = async (req: Request, res: Response) => {
+    try {
+        const data = await Book.findByIdAndDelete(req.params.bookId)
+        res.send({
+            "success": true,
+            "message": "Book deleted successfully",
+            data: null
+        })
+    }
+    catch (error) {
+        res.status(500).json({
             success: false,
             message: "Error occurred",
             error
@@ -112,6 +130,7 @@ export const bookController = {
     insertNewBook,
     getBooks,
     getBookByID,
-    updateBook
+    updateBook,
+    deleteBook
 
 }

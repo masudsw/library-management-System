@@ -6,4 +6,5 @@ bookRoute.post("/",bookController.insertNewBook);
 bookRoute.get("/",bookController.getBooks);
 bookRoute.get("/:bookId",bookController.getBookByID)
 bookRoute.put("/:bookId",bookController.updateBook)
+bookRoute.delete("/:bookId",bookController.deleteBook)
 export default bookRoute;
