@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Borrow } from "./borrow.model";
 import Book from "../book/book.model";
 
 
-const borrowBook = async (req: Request, res: Response) => {
+const borrowBook = async (req: Request, res: Response, next:NextFunction) => {
 
     try {
         const { book, quantity } = req.body;
@@ -17,20 +17,12 @@ const borrowBook = async (req: Request, res: Response) => {
                 data: borrow
             }
         )
-    } catch (error:unknown) {
-        console.error("Borrow failed", error);
-        let message= "Borrowing failed";
-        if(error instanceof Error){
-            message=error.message;
-        }
-        res.send({
-            success: false,
-            message
-        })
+    } catch (error) {
+       next(error)
     }
 }
 
-const borrowedBookSummary = async (req: Request, res: Response) => {
+const borrowedBookSummary = async (req: Request, res: Response, next:NextFunction) => {
     try {
         const data = await Borrow.aggregate([
             {
@@ -65,17 +57,8 @@ const borrowedBookSummary = async (req: Request, res: Response) => {
             success: true,
             data
         });
-    } catch (error: unknown) {
-        let message="Aggregation failed";
-        if(error instanceof Error){
-            message=error.message;
-        }
-        res.send(
-            {
-                success: false,
-                message
-            }
-        );
+    } catch (error) {
+        next(error)
     }
 
 };

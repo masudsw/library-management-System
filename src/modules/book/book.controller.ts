@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Book from "./book.model";
+import { Types } from "mongoose";
 
 
-const insertNewBook = async (req: Request, res: Response) => {
+const insertNewBook = async (req: Request, res: Response, next:NextFunction) => {
     try {
         const data = await Book.create(req.body);
 
@@ -23,16 +24,12 @@ const insertNewBook = async (req: Request, res: Response) => {
             },
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error occurred",
-            error
-        });
+        next(error);
     }
 
 }
 
-const getBooks = async (req: Request, res: Response) => {
+const getBooks = async (req: Request, res: Response, next:NextFunction) => {
     try {
         const {
             filter = "",
@@ -54,18 +51,22 @@ const getBooks = async (req: Request, res: Response) => {
         })
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error occurred",
-            error
-        });
+        next(error)
 
     }
 
 }
-const getBookByID = async (req: Request, res: Response) => {
+const getBookByID = async (req: Request, res: Response,next:NextFunction) => {
     try {
+        const bookId=req.params.bookId;
+        if(!Types.ObjectId.isValid(bookId)){
+            throw new Error(`Invalid Book ID: ${bookId}`)
+        }
         const book = await Book.findById(req.params.bookId);
+        if(!book){
+            throw new Error("Book not found")
+        }
+        
         res.send(
             {
                 success: true,
@@ -76,19 +77,25 @@ const getBookByID = async (req: Request, res: Response) => {
     }
 
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error occurred",
-            error
-        });
+        next(error)
 
     }
 }
 
 
-const updateBook = async (req: Request, res: Response) => {
+const updateBook = async (req: Request, res: Response,next:NextFunction) => {
     try {
-        const data = await Book.findByIdAndUpdate(req.params.bookId, req.body, { new: true })
+         const bookId=req.params.bookId;
+        if(!Types.ObjectId.isValid(bookId)){
+            throw new Error(`Invalid Book ID: ${bookId}`)
+        }
+        console.log(bookId)
+        console.log(req.body)
+        const data = await Book.findByIdAndUpdate(bookId, req.body, { new: true, runValidators: true });
+        console.log("data",data)
+        if(!data){
+            throw new Error("Book not found")
+        }
         res.send({
             "success": true,
             "message": "Book updated successfully",
@@ -96,19 +103,22 @@ const updateBook = async (req: Request, res: Response) => {
         })
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error occurred",
-            error
-        });
+        next(error)
 
     }
 
 }
 
-const deleteBook = async (req: Request, res: Response) => {
+const deleteBook = async (req: Request, res: Response, next:NextFunction) => {
     try {
-        await Book.findByIdAndDelete(req.params.bookId)
+        const bookId=req.params.bookId;
+        if(!Types.ObjectId.isValid(bookId)){
+            throw new Error(`Invalid Book ID: ${bookId}`)
+        }
+        const book=await Book.findByIdAndDelete(bookId)
+        if(!book){
+            throw new Error("Book not found")
+        }
         res.send({
             "success": true,
             "message": "Book deleted successfully",
@@ -116,11 +126,7 @@ const deleteBook = async (req: Request, res: Response) => {
         })
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error occurred",
-            error
-        });
+      next(error)
 
     }
 
