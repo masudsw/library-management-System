@@ -62,8 +62,6 @@ export const message=`
       </div>
     </div>
     
-    <p style="color: #7f8c8d; margin-top: 2rem;">
-      Happy reading! ✨
-    </p>
+    
   </div>
 `
