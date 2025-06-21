@@ -10,7 +10,7 @@ An Expressjs(framework of Node.js)-based backend API for managing a library's bo
 ---
 
 ## 📁 Project Structure
-
+```
 src/
 ├── server.ts # Main Express app
 ├── modules/
@@ -19,6 +19,7 @@ src/
 ├── middlewares/ # Global error/validation handling
 └── routes /# routes of book and borrow
 └── util/ # initial api welcome message/ welcome route
+```
 
 ## 🛠 Technologies Used
 
@@ -36,38 +37,55 @@ src/
    ```bash
    git clone https://github.com/masudsw/library-management-System.git
    cd library-management-System
-
+```
    Install dependencies:
-   `
-   <pre>
+   
+ ```bash
    npm install
-   <pre>
+  ```
 
    
-   `
+   
    Create .env file:
-`
+ ```bash
 PORT=5000
 MONGODB_URI=mongodb+srv://<your-mongo-uri>
 
-`
+```
    
    Run locally:
-   `
+ ```bash
    npm run dev
-   `
+   ```
    
    Build for production:
-   `
+   ```bash
    npm run build
-   `
+   ```
 
-   📚 API Endpoints
+   📚 API Endpoints<br>
    📘 Book Routes (/api/books)
 
-   Method	Endpoint	Description
-POST	/api/books	Add a new book
-GET	/api/books	Get all books (filter/sort/limit supported)
-GET	/api/books/:id	Get a single book by ID
-PATCH	/api/books/:id	Update a book by ID
-DELETE	/api/books/:id	Delete a book by ID
+
+### 📘 Book Routes (`/api/books`)
+
+| Method | Endpoint         | Description                      |
+|--------|------------------|----------------------------------|
+| POST   | `/api/books`     | Add a new book                   |
+| GET    | `/api/books`     | Get all books                    |
+| GET    | `/api/books/:id` | Get a single book by ID          |
+| PATCH  | `/api/books/:id` | Update a book by ID              |
+| DELETE | `/api/books/:id` | Delete a book by ID              |
+
+
+### 📘 Borrow Routes (`/api/borrow`)
+
+| Method | Endpoint         | Description                             |
+|--------|------------------|-----------------------------------------|
+| POST   | `/api/borrow`     | Add a borrow information               |
+| GET    | `/api/borrow`     | Get aggretated result of borrowed books|
+
+🧑‍💻 Author
+Golam Mustafa (masudsw)
+📫 [LinkedIn](https://www.linkedin.com/in/golam-mustafa-masud) 
+
