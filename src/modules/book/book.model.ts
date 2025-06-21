@@ -17,7 +17,8 @@ genre:{
 },
 isbn:{
     type:String,
-     required:true
+     required:true,
+     unique:[true,"ISBN should can be duplicate"]
 },
 description:{
     type:String,
