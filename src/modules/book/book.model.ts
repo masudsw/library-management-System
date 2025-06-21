@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IBook } from "./book.interface";
+import { IBook, IBookModel } from "./book.interface";
 
 const bookSchema=new Schema<IBook>({
 title:{
@@ -40,6 +40,23 @@ available:{
     versionKey:false
 }
 )
+bookSchema.statics.updateCopiesAfterBorrow = async function (bookId: string, quantity: number) {
+    const book = await this.findById(bookId);
+    if (!book) throw new Error("Book not found");
+    if (!book.available) {
+        throw new Error("No copies available. Book is currently unavailable.");
+    }
+    if (quantity > book.copies) {
+        throw new Error(`Only ${book.copies} copies available.`);
+    }
 
-const Book=model<IBook>("Book",bookSchema)
+    book.copies -= quantity;
+    if (book.copies === 0) {
+        book.available = false;
+    }
+
+    await book.save();
+};
+
+const Book=model<IBook,IBookModel>("Book",bookSchema)
 export default Book;
