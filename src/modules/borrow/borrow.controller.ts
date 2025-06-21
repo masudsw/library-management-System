@@ -17,11 +17,15 @@ const borrowBook = async (req: Request, res: Response) => {
                 data: borrow
             }
         )
-    } catch (error: any) {
+    } catch (error:unknown) {
         console.error("Borrow failed", error);
+        let message= "Borrowing failed";
+        if(error instanceof Error){
+            message=error.message;
+        }
         res.send({
             success: false,
-            message: error.message || "Borrowing failed"
+            message
         })
     }
 }
@@ -61,11 +65,15 @@ const borrowedBookSummary = async (req: Request, res: Response) => {
             success: true,
             data
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let message="Aggregation failed";
+        if(error instanceof Error){
+            message=error.message;
+        }
         res.send(
             {
                 success: false,
-                message: error.message || "Aggregation failed"
+                message
             }
         );
     }

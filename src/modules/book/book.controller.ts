@@ -1,4 +1,4 @@
-import { json, Request, Response } from "express";
+import { Request, Response } from "express";
 import Book from "./book.model";
 
 
@@ -108,7 +108,7 @@ const updateBook = async (req: Request, res: Response) => {
 
 const deleteBook = async (req: Request, res: Response) => {
     try {
-        const data = await Book.findByIdAndDelete(req.params.bookId)
+        await Book.findByIdAndDelete(req.params.bookId)
         res.send({
             "success": true,
             "message": "Book deleted successfully",
