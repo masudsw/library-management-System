@@ -26,8 +26,13 @@ description:{
 },
 copies:{
     type:Number,
-    min:0,
-     required:true
+     required:true,
+     validate:{
+        validator: function(v){
+            return v>0 && Number.isInteger(v)
+        },
+        message:"Copies must be a non-negative integer got {VALUE}"
+     }
 
 },
 available:{
