@@ -38,27 +38,29 @@ src/
    git clone https://github.com/masudsw/library-management-System.git
    cd library-management-System
 ```
-   Install dependencies:
+2. **Install dependencies:**
+
+   
    
  ```bash
    npm install
   ```
 
    
+3. **Create .env file:**
    
-   Create .env file:
  ```bash
 PORT=5000
 MONGODB_URI=mongodb+srv://<your-mongo-uri>
 
 ```
+  4. **Run locally:** 
    
-   Run locally:
  ```bash
    npm run dev
    ```
+   5. **Build for production:** 
    
-   Build for production:
    ```bash
    npm run build
    ```
