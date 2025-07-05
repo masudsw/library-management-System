@@ -5,7 +5,7 @@ An Expressjs(framework of Node.js)-based backend API for managing a library's bo
 ## 🚀 Live API Endpoint
 
 **Deployed on Vercel**:  
-🔗 https://library-management-system-eta-two.vercel.app/
+🔗 https://library-management-api-swart.vercel.app
 
 ---
 
